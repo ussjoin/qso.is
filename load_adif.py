@@ -170,8 +170,9 @@ def parse_adif(file_object):
         original=bindparam("original"),
     )
 
-    with engine.begin() as conn:
-        conn.execute(stmt, to_insert)
+    if len(to_insert) > 0:
+        with engine.begin() as conn:
+            conn.execute(stmt, to_insert)
 
     print("DB insert complete.")
 
