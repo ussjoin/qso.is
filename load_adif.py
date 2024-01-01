@@ -126,7 +126,7 @@ def parse_adif(file_object):
 
         data = {
             "id": str(uuid.uuid4()),
-            "user_id": "ussjoin",
+            "user_id": "ussjoin", # TODO: Multiuser?
             "station": q_p["station"],
             "callsign": q_p["callsign"],
             "epoch": q_p["epoch"],
