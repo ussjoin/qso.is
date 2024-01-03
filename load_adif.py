@@ -95,6 +95,13 @@ def parse_adif(file_object):
             sys.exit(1)
 
         q_p["call_grid"] = qso.get("GRIDSQUARE")
+        # If there wasn't a given key, Python handles that by setting it as "None".
+        # Change that to just a None.
+        if q_p["call_grid"] == "None":
+            q_p["call_grid"] = None
+        if len(q_p["call_grid"].strip()) == 0:
+            q_p["call_grid"] = None
+        
 
         q_p["frequency"] = qso.get("FREQ")
 
@@ -103,6 +110,10 @@ def parse_adif(file_object):
             q_p["power"] = q_p["power"][0:-1]  # Remove the W
 
         q_p["mode"] = qso.get("MODE")
+        
+        if qso.get("MODE") == "MFSK" and qso.get("SUBMODE") == "FT4":
+            q_p["mode"] = qso.get("SUBMODE")
+        
         q_p["signals"] = qso.get("RST_SENT")
         q_p["signalr"] = qso.get("RST_RCVD")
         # If there wasn't a given key, Python handles that by setting it as "None".
@@ -111,8 +122,6 @@ def parse_adif(file_object):
             q_p["signalr"] = None
         if q_p["signals"] == "None":
             q_p["signals"] = None
-        if q_p["call_grid"] == "None":
-            q_p["call_grid"] = None
 
         q_p["original_line"] = line
         qsos_parsed.append(q_p)
@@ -131,7 +140,7 @@ def parse_adif(file_object):
             "callsign": q_p["callsign"],
             "epoch": q_p["epoch"],
             "station_loc": q_p["station_grid"],
-            "callsign_loc": q_p["station_grid"],
+            "callsign_loc": q_p["call_grid"],
             "frequency": q_p["frequency"],
             "power": q_p["power"],
             "mode": q_p["mode"],
