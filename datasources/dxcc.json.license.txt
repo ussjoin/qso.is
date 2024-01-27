@@ -1,0 +1,1 @@
+DXCC.json from https://github.com/k0swe/dxcc-json/, which attests the LICENSE as described in that repository (Apache 2.0).
